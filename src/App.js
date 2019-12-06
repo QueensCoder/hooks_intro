@@ -6,7 +6,7 @@ const state = [
   { text: "walk doggy", isComp: false }
 ];
 
-const Todo = ({ todo, index, completeTodo }) => {
+const Todo = ({ todo, index, completeTodo, removeTodo }) => {
   // on click of completed item is crossed out in todo list
 
   return (
@@ -14,6 +14,7 @@ const Todo = ({ todo, index, completeTodo }) => {
       {todo.text}{" "}
       <div>
         <button onClick={() => completeTodo(index)}>Complete Todo</button>
+        <button onClick={() => removeTodo(index)}>Delete</button>
       </div>
     </div>
   );
@@ -54,11 +55,23 @@ const App = () => {
     setTodos(newTodos);
   };
 
+  const removeTodo = idx => {
+    const newTodos = [...todos]; //spread state then mutate
+    newTodos.splice(idx, 1);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="App">
       <ul>
         {todos.map((todo, idx) => (
-          <Todo key={idx} index={idx} todo={todo} completeTodo={completeTodo} />
+          <Todo
+            key={idx}
+            index={idx}
+            todo={todo}
+            completeTodo={completeTodo}
+            removeTodo={removeTodo}
+          />
         ))}
       </ul>
       <TodoForm addTodo={addTodo} />
