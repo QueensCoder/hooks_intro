@@ -6,8 +6,17 @@ const state = [
   { text: "walk doggy", isComp: false }
 ];
 
-const Todo = ({ todo, index }) => {
-  return <div>{todo.text}</div>;
+const Todo = ({ todo, index, completeTodo }) => {
+  // on click of completed item is crossed out in todo list
+
+  return (
+    <div style={{ textDecoration: todo.isComp ? "line-through" : "" }}>
+      {todo.text}{" "}
+      <div>
+        <button onClick={() => completeTodo(index)}>Complete Todo</button>
+      </div>
+    </div>
+  );
 };
 
 const TodoForm = ({ addTodo }) => {
@@ -36,14 +45,20 @@ const App = () => {
 
   const addTodo = text => {
     const newTodos = [...todos, { text }];
-    console.log(setTodos);
     setTodos(newTodos); //setTodo changes state to passed in arg?
   };
+
+  const completeTodo = idx => {
+    const newTodos = [...todos];
+    newTodos[idx].isComp = true;
+    setTodos(newTodos);
+  };
+
   return (
     <div className="App">
       <ul>
         {todos.map((todo, idx) => (
-          <Todo key={idx} index={idx} todo={todo} />
+          <Todo key={idx} index={idx} todo={todo} completeTodo={completeTodo} />
         ))}
       </ul>
       <TodoForm addTodo={addTodo} />
